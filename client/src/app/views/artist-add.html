@@ -1,0 +1,54 @@
+<div class="col s6" *ngIf="identity && identity.role=='ROLE_ADMIN'">
+	<div class="row">
+		<h1 style="color: white;">{{titulo}}</h1>
+		<div *ngIf="alertMessage">
+			<div class="alert alert-info">{{alertMessage}}
+			</div>
+		</div>
+		<form #formArtist="ngForm" (ngSubmit)="onSubmit()">
+
+			<div class="input-field col s12 m6">
+				<label for="name">Nombre</label>
+				<input type="text" #name="ngModel" name="name" [(ngModel)]="artist.name" required>
+				<span *ngIf="!name.valid && name.touched">
+					El nombre es obligatorio.
+				</span>
+			</div>
+
+			<div class="input-field col s12 m6">
+				<label>Descripción</label>
+				<textarea #description="ngModel" name="description" [(ngModel)]="artist.description" required class="materialize-textarea"></textarea>
+				<span *ngIf="!description.valid && description.touched">
+					La descripción es obligatoria.
+				</span>
+			</div>
+
+			<div *ngIf="is_edit">
+				<div class="artist_image_for_edit" *ngIf="artist.image && artist.image != 'null' ">
+					<img src="{{url + 'get-image-artist/' + artist.image}}" class="responsive-img">
+				</div>
+
+				<div class="file-field input-field  col s12 m6">
+			      <div class="btn">
+			        <span>Seleccionar imagen</span>
+			        <input type="file" (change)="fileChangeEvent($event)">
+			      </div>
+			      <!-- <div class="file-path-wrapper">
+			      	<input class="file-path validate" type="text"/>
+			      </div> -->
+			    </div>
+
+				<!-- <p>
+					<label>Sube la imagen del artista</label>
+					<input type="file" placeholder="Subir imagen..." (change)="fileChangeEvent($event)"/>
+				</p> -->
+			</div>
+
+			<input type="submit" value="Guardar" [disabled]="!formArtist.form.valid" class="btn btn-success btn-large">
+		</form>
+	</div>
+</div>
+<div class="col-lg-6" *ngIf="!identity || identity.role != 'ROLE_ADMIN' ">
+	<h1>Error</h1>
+	<p>No tienes acceso a esta parte de la aplicación</p>
+</div>

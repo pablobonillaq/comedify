@@ -1,0 +1,66 @@
+<div *ngIf="artist" class="artist-box">
+	<div id="artist-head-card">
+		<div class="image" *ngIf="artist.image && artist.image !== 'null'">
+			<img class="circle responsive-img" src="{{ url + 'get-image-artist/' + artist.image}}">
+		</div>
+		<div class="data">
+			<h1>{{artist.name}}</h1>
+			<p class="description">{{artist.description}}</p>
+			<a *ngIf="identity.role == 'ROLE_ADMIN'" [routerLink]="['/crear-album',artist._id]" class="btn btn-default">
+				Añadir album
+			</a>
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+	<div id="gallery-albums" *ngIf="albums">
+		<!-- Listar los albums -->
+		<ul class="albums-list">
+			<li *ngFor="let album of albums" class="col-lg-4">
+
+				<div class="card blue-grey darken-4">
+			        <div class="card-image">
+			        	<img src="{{url + 'get-image-album/' + album.image}}" alt="{{album.title}}">
+			        </div>
+			        <div class="card-content">
+			        	<a [routerLink]="['/album', album._id]"><span class="card-title">{{album.title}}</span></a>
+			        	<div class="buttons" *ngIf="identity.role == 'ROLE_ADMIN'">
+							<a [routerLink]="['/editar-album', album._id]" class="btn btn-sm btn-warning" >Editar</a>
+							<a (click)="onDeleteConfirm(album._id)" class="btn btn-sm btn-danger">Borrar</a>
+						</div>
+			        </div>
+			        <div class="card-action" *ngIf="confirmado == album._id">
+			        	<a (click)="onDeleteAlbum(album._id)" class="btn btn-sm btn-danger">Eliminar</a>
+						<a (click)="onCancelAlbum()" class="btn btn-sm btn-primary">Cancelar</a>
+			        </div>
+			     </div>
+
+
+				<!-- <div class="album-image">
+					<img src="{{url + 'get-image-album/' + album.image}}">
+				</div>
+				<div class="album-name">
+					<p>
+						<a [routerLink]="['/album', album._id]">
+							{{album.title}}
+						</a>
+					</p>
+					<p>
+						<a [routerLink]="['/artista', album.artist._id]">
+							{{album.artist.name}}
+						</a>
+					</p>
+					<div class="buttons" *ngIf="identity.role == 'ROLE_ADMIN'">
+						<a [routerLink]="['/editar-album', album._id]" class="btn btn-sm btn-warning" >Editar</a>
+						<a (click)="onDeleteConfirm(album._id)" class="btn btn-sm btn-danger">Borrar</a>
+					</div>
+				</div>
+				
+				<div class="seguro seguro-album" *ngIf="confirmado == album._id">
+					<a (click)="onDeleteAlbum(album._id)" class="btn btn-sm btn-danger">Eliminar</a>
+					<a (click)="onCancelAlbum()" class="btn btn-sm btn-primary">Cancelar</a>
+				</div> -->
+			</li>
+		</ul>
+	</div>
+</div>
